@@ -25,6 +25,11 @@ class Product(models.Model):
         upload_to="products/thumbnails/", verbose_name="Thumbnail Image"
     )
 
+    class Meta:
+        permissions = [
+            ("can_view_product_statistics", "Can view product statistics"),
+        ]
+
     def __str__(self):
         return self.name
 
