@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-wta0b-#=a$yb$w#26t78#6bifoyynvso-qy5unlht#0obz-9q(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["testserver"]
 
 
 # Application definition
@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "ecomapp",
     "rest_framework",
+    "ecomapp",
 ]
 
 MIDDLEWARE = [
