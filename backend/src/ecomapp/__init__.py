@@ -1,1 +1,1 @@
-default_app_config = 'ecomapp.apps.EcomappConfig'
+default_app_config = "ecomapp.apps.EcomappConfig"

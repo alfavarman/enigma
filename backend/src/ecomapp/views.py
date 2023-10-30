@@ -33,7 +33,7 @@ class ProductListView(generics.ListCreateAPIView):
     views for listing and creating products - no authorization required
     """
 
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by("id")
     serializer_class = ProductSerializer
 
     pagination_class = pagination.PageNumberPagination
@@ -44,7 +44,7 @@ class ProductListView(generics.ListCreateAPIView):
     ordering_fields = ["name", "category__name", "price"]
 
 
-class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
