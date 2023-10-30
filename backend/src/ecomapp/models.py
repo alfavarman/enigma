@@ -22,7 +22,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name="Description")
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Price")
     category = models.ForeignKey(ProductCategory, on_delete=models.SET_NULL, null=True, verbose_name="Category")
-    image = models.ImageField(upload_to="products/", verbose_name="Image")
+    image = models.ImageField(upload_to="products/", verbose_name="Image", null=True, blank=True)
     thumbnail = models.ImageField(
         upload_to="products/thumbnails/", verbose_name="Thumbnail Image", blank=True, null=True
     )

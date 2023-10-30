@@ -54,7 +54,7 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
 
 
-class ProductManageView(generics.RetrieveUpdateDestroyAPIView):
+class ProductManageView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     """Manage a product,
     GET - no auth
     POST - auth, seller group permissions only
@@ -66,15 +66,15 @@ class ProductManageView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
 
     def get_permissions(self):
-        if self.request.method != "GET":
-            return [permissions.IsAuthenticated & IsSeller()]
-        return []
+        if self.request.method == "GET":
+            return [permissions.AllowAny()]
+        return [permissions.IsAuthenticated(), IsSeller()]
 
 
 class PlaceOrderView(generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated, IsClient()]
+    permission_classes = [permissions.IsAuthenticated(), IsClient()]
 
     def perform_create(self, serializer):
         order = serializer.save(customer=self.request.user)
@@ -101,7 +101,7 @@ class PlaceOrderView(generics.CreateAPIView):
 
 
 class ProductStatisticsView(APIView):
-    permission_classes = [permissions.IsAuthenticated, IsSeller]
+    permission_classes = [permissions.IsAuthenticated, IsSeller()]
 
     def get(self, request, *args, **kwargs):
         serializer = ProductStatisticsInputSerializer(data=request.query_params)
