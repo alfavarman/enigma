@@ -59,3 +59,6 @@ class ProductListViewTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         product_prices = [product["price"] for product in response.data["results"]]
         self.assertEqual(product_prices, sorted(product_prices, reverse=True))
+
+
+# TODO add test with not safe method (PUT, PATCH, DELETE)

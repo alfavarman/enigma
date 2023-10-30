@@ -12,7 +12,7 @@ from .serializers import ProductSerializer, OrderSerializer, ProductStatisticsIn
 
 class IsSeller(permissions.BasePermission):
     """
-    Verify that the user has seller permission
+    Verify that the user has seller-group permission
     """
 
     def has_permission(self, request, view):
@@ -28,9 +28,10 @@ class IsClient(permissions.BasePermission):
         return request.user.groups.filter(name="Client").exists()
 
 
-class ProductListView(generics.ListCreateAPIView):
+class ProductListView(generics.ListAPIView):
     """
     views for listing and creating products - no authorization required
+    methods allowed: GET
     """
 
     queryset = Product.objects.all().order_by("id")
@@ -45,6 +46,10 @@ class ProductListView(generics.ListCreateAPIView):
 
 
 class ProductDetailView(generics.RetrieveAPIView):
+    """
+    views for listing and creating products - no authorization required
+    methods allowed: GET
+    """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 

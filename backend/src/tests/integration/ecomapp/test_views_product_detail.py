@@ -21,3 +21,6 @@ class ProductDetailViewTest(TestCase):
         url = reverse('product-detail', args=[9999])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
+
+
+# TODO add test with not safe method (PUT, PATCH, DELETE)
