@@ -36,9 +36,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_price",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Total Price"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Total Price"),
                 ),
                 (
                     "customer",
@@ -84,9 +82,7 @@ class Migration(migrations.Migration):
                 ("description", models.TextField(verbose_name="Description")),
                 (
                     "price",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Price"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Price"),
                 ),
                 (
                     "image",
@@ -94,9 +90,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "thumbnail",
-                    models.ImageField(
-                        upload_to="products/thumbnails/", verbose_name="Thumbnail Image"
-                    ),
+                    models.ImageField(upload_to="products/thumbnails/", verbose_name="Thumbnail Image"),
                 ),
                 (
                     "category",
