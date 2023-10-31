@@ -29,7 +29,6 @@ class PlaceOrderViewTest(TestCase):
         order = Order.objects.last()
         self.assertEqual(order.customer, self.user)
 
-        # Ensure both operands are of the same datatype
         expected_total = float(self.product.price) * float(post_data["products"][0]["quantity"])
         self.assertEqual(order.total_price, expected_total)
 

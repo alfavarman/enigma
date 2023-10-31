@@ -73,7 +73,7 @@ class ProductManageView(generics.RetrieveUpdateDestroyAPIView, generics.CreateAP
         return [permissions.IsAuthenticated(), IsSeller()]
 
 
-class PlaceOrderView(generics.CreateAPIView):
+class PlaceOrderView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
 
@@ -97,7 +97,9 @@ class PlaceOrderView(generics.CreateAPIView):
 
 
 class ProductStatisticsView(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated(), IsSeller()]
+
+    def get_permissions(self):
+        return [permissions.IsAuthenticated(), IsSeller()]
 
     def get(self, request, *args, **kwargs):
         serializer = ProductStatisticsInputSerializer(data=request.query_params)
@@ -108,10 +110,8 @@ class ProductStatisticsView(generics.RetrieveAPIView):
         date_to = serializer.validated_data["date_to"]
         number_of_products = serializer.validated_data["number_of_products"]
 
-        # Filtering the OrderProduct based on the date range of Orders.
         order_products = OrderProduct.objects.filter(order__order_date__range=(date_from, date_to))
 
-        # Aggregating product quantities
         product_quantities = (
             order_products.values("product__name")
             .annotate(total_quantity=Sum("quantity"))

@@ -15,6 +15,11 @@ class ProductManageViewTest(TestCase):
         self.seller_user.groups.add(seller_group)
         self.product1 = Product.objects.create(name="Test Product 1", description="Description 1", price=10.00)
 
+    def tearDown(self):
+        self.normal_user.delete()
+        self.seller_user.delete()
+        self.product1.delete()
+
     def test_retrieve_product_without_auth(self):
         url = reverse("product-manage", args=[self.product1.pk])
         response = self.client.get(url)
