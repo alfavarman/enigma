@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "ecomapp",
+    "celery",
+    "django_celery_beat",
 ]
 
 MIDDLEWARE = [
@@ -127,3 +129,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGGING_CONFIG = "logging.config.dictConfig"
 
 EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
+
+CELERY_BROKER_URL = "amqp://localhost"
+
+CELERY_BEAT_SCHEDULE = {
+    "send_payment_due_reminders_every_day": {
+        "task": "ecommerce.tasks.send_payment_due_reminders",
+        "schedule": timedelta(days=1),  # runs daily
+    },
+}

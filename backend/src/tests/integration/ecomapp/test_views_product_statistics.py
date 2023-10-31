@@ -15,15 +15,15 @@ class ProductStatisticsViewTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-        self.seller = User.objects.create_user(username='seller1', password='pass1234')
+        self.seller = User.objects.create_user(username="seller1", password="pass1234")
         seller_group, created = Group.objects.get_or_create(name="Seller")
         self.seller.groups.add(seller_group)
         self.seller.save()
 
         self.test_date = timezone.now().astimezone(datetime.timezone.utc)
 
-        self.product_1 = Product.objects.create(name='Product1', price=10.00)
-        self.product_2 = Product.objects.create(name='Product2', price=20.00)
+        self.product_1 = Product.objects.create(name="Product1", price=10.00)
+        self.product_2 = Product.objects.create(name="Product2", price=20.00)
 
         self.order = Order.objects.create(customer=self.seller, order_date=self.test_date)
         OrderProduct.objects.create(order=self.order, product=self.product_1, quantity=5)
@@ -39,11 +39,11 @@ class ProductStatisticsViewTest(TestCase):
         OrderProduct.objects.all().delete()
 
     def test_get_product_statistics_success(self):
-        url = reverse('product-statistics')
+        url = reverse("product-statistics")
 
         params = {
-            "date_from": self.test_date.strftime('%Y-%m-%d'),
-            "date_to": (self.test_date + datetime.timedelta(days=1)).strftime('%Y-%m-%d'),
+            "date_from": self.test_date.strftime("%Y-%m-%d"),
+            "date_to": (self.test_date + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
             "number_of_products": 2
         }
 
@@ -57,10 +57,10 @@ class ProductStatisticsViewTest(TestCase):
         self.assertEqual(list(response.data), expected_data)
 
     def test_get_product_statistics_missing_date(self):
-        url = reverse('product-statistics')
+        url = reverse("product-statistics")
 
         params = {
-            "date_from": self.test_date.strftime('%Y-%m-%d'),
+            "date_from": self.test_date.strftime("%Y-%m-%d"),
             "number_of_products": 2
         }
 
