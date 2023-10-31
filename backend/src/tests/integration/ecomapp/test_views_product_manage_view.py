@@ -1,12 +1,12 @@
 import test_init
-from django.contrib.auth.models import User, Group
-from django.urls import reverse
-from ecomapp.models import Product
+from django.contrib.auth.models import Group, User
 from django.test import Client, TestCase
+from django.urls import reverse
+
+from ecomapp.models import Product
 
 
 class ProductManageViewTest(TestCase):
-
     def setUp(self):
         self.client = Client()
         self.normal_user = User.objects.create_user(username="normaluser", password="testpass")
@@ -26,20 +26,12 @@ class ProductManageViewTest(TestCase):
         create_url = reverse("product-manage-create")
 
         # POST
-        post_data = {
-            "name": "New Product",
-            "description": "New Description",
-            "price": 15.00
-        }
+        post_data = {"name": "New Product", "description": "New Description", "price": 15.00}
         response = self.client.post(create_url, post_data)
         self.assertEqual(response.status_code, 403)
 
         # PUT
-        update_data = {
-            "name": "Updated Product",
-            "description": "Updated Description",
-            "price": 20.00
-        }
+        update_data = {"name": "Updated Product", "description": "Updated Description", "price": 20.00}
         response = self.client.put(url, update_data)
         self.assertEqual(response.status_code, 403)
 
@@ -53,20 +45,12 @@ class ProductManageViewTest(TestCase):
         create_url = reverse("product-manage-create")
 
         # POST
-        post_data = {
-            "name": "New Product",
-            "description": "New Description",
-            "price": 15.00
-        }
+        post_data = {"name": "New Product", "description": "New Description", "price": 15.00}
         response = self.client.post(create_url, post_data)
         self.assertEqual(response.status_code, 403)
 
         # PUT
-        update_data = {
-            "name": "Updated Product",
-            "description": "Updated Description",
-            "price": 20.00
-        }
+        update_data = {"name": "Updated Product", "description": "Updated Description", "price": 20.00}
         response = self.client.put(url, update_data)
         self.assertEqual(response.status_code, 403)
 
@@ -80,21 +64,13 @@ class ProductManageViewTest(TestCase):
         create_url = reverse("product-manage-create")
 
         # POST
-        post_data = {
-            "name": "New Product",
-            "description": "New Description",
-            "price": 15.00
-        }
+        post_data = {"name": "New Product", "description": "New Description", "price": 15.00}
         response = self.client.post(create_url, post_data)
         self.assertEqual(response.status_code, 201)
         self.assertTrue(Product.objects.filter(name="New Product").exists())
 
         # PUT
-        update_data = {
-            "name": "Updated Product",
-            "description": "Updated Description",
-            "price": 20.00
-        }
+        update_data = {"name": "Updated Product", "description": "Updated Description", "price": 20.00}
         response = self.client.put(url, update_data, content_type="application/json")
         self.assertEqual(response.status_code, 200)
         self.product1.refresh_from_db()

@@ -1,9 +1,12 @@
 from pathlib import Path
 
-from PIL import Image as Img
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
+from PIL import Image as Img
+
+PAYMENT_DUE_DAYS = 5
 
 
 class ProductCategory(models.Model):
@@ -61,14 +64,26 @@ class Order(models.Model):
     customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Customer")
     delivery_address = models.TextField(verbose_name="Delivery Address")
     order_date = models.DateTimeField(auto_now_add=True, verbose_name="Order Date")
-    payment_due_date = models.DateTimeField(verbose_name="Payment Due Date")
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Total Price")
-
-    # This will be a many-to-many relationship to handle products and their quantities
+    total_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Total Price", null=True, blank=True
+    )
+    payment_due_date = models.DateTimeField(verbose_name="Payment Due Date", null=True, blank=True)
     products = models.ManyToManyField(Product, through="OrderProduct", verbose_name="Products")
 
     def __str__(self):
         return f"Order {self.id} by {self.customer.username}"
+
+    def save(self, *args, **kwargs):
+        self.set_payment_due_date()
+        super().save(*args, **kwargs)
+
+    def set_total_price(self):
+        self.total_price = sum(
+            [order_product.product.price * order_product.quantity for order_product in self.orderproduct_set.all()]
+        )
+
+    def set_payment_due_date(self):
+        self.payment_due_date = timezone.now() + timezone.timedelta(days=PAYMENT_DUE_DAYS)
 
 
 class OrderProduct(models.Model):
@@ -77,6 +92,9 @@ class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name="Order")
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Product")
     quantity = models.PositiveIntegerField(verbose_name="Quantity")
+
+    class Meta:
+        unique_together = ("order", "product")
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"

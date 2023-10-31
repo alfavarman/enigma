@@ -1,5 +1,9 @@
+from decimal import Decimal
+
+from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Product, ProductCategory, OrderProduct, Order
+
+from .models import Order, OrderProduct, Product, ProductCategory
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -15,28 +19,33 @@ class ProductCategorySerializer(serializers.ModelSerializer):
 
 
 class OrderProductSerializer(serializers.ModelSerializer):
-    product_id = serializers.PrimaryKeyRelatedField(source="product", queryset=Product.objects.all())
-    quantity = serializers.IntegerField()
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
 
     class Meta:
         model = OrderProduct
-        fields = ["product_id", "quantity"]
+        fields = ["product", "quantity"]
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    products = OrderProductSerializer(many=True)
+    products = OrderProductSerializer(source="orderproduct_set", many=True)
 
     class Meta:
         model = Order
-        fields = ["customer", "delivery_address", "products"]
+        fields = ["delivery_address", "products"]
 
     def create(self, validated_data):
-        products_data = validated_data.pop("products")
+        orders_products_data = validated_data.pop("orderproduct_set")
         order = Order.objects.create(**validated_data)
 
-        for product_data in products_data:
-            OrderProduct.objects.create(order=order, **product_data)
+        total_price = Decimal(0.0)
+        for order_data in orders_products_data:
+            product = Product.objects.get(name=order_data["product"])
+            quantity = order_data["quantity"]
+            total_price += product.price * quantity
+            OrderProduct.objects.create(order=order, **order_data)
 
+        order.total_price = total_price
+        order.save()
         return order
 
 

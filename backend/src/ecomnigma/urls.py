@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 
-from ecomapp.views import ProductListView, ProductDetailView, ProductManageView, PlaceOrderView, ProductStatisticsView
-
+from ecomapp.views import (PlaceOrderView, ProductDetailView, ProductListView,
+                           ProductManageView, ProductStatisticsView)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
