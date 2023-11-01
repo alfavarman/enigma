@@ -1,0 +1,29 @@
+{
+    "Seller": [
+        "change_user",
+        "delete_user",
+        "view_user",
+        "view_order",
+        "view_orderproduct",
+        "add_product",
+        "can_view_product_statistics",
+        "change_product",
+        "delete_product",
+        "view_product",
+        "add_productcategory",
+        "change_productcategory",
+        "delete_productcategory",
+        "view_productcategory"
+    ],
+    "Client": [
+        "change_user",
+        "delete_user",
+        "view_user",
+        "add_order",
+        "change_order",
+        "delete_order",
+        "view_order",
+        "view_product",
+        "view_productcategory"
+    ]
+}

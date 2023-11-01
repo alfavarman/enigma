@@ -32,6 +32,10 @@ python manage.py migrate
 echo "Creating superuser..."
 echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', 'admin@example.com', 'admin')" | python manage.py shell
 
+# Create Groups (Client & Seller) & permissions as per dosc/permissions.json
+echo "Create Groups (Client & Seller) & permissions as per dosc/permissions.json"
+python manage.py setup_groups_permissions
+
 echo "-------------------------------------------------------"
 echo "Installation Summary:"
 echo "1. Virtual environment created and requirements installed."
