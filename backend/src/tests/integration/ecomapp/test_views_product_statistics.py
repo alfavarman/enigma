@@ -1,7 +1,7 @@
 import datetime
 from django.utils import timezone
 
-import test_init
+#import test_init
 from django.contrib.auth.models import User, Group
 from django.test import TestCase
 from django.urls import reverse

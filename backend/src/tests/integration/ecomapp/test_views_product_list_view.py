@@ -1,4 +1,4 @@
-import test_init
+#import test_init
 from django.test import Client, TestCase
 from django.urls import reverse
 from rest_framework import status

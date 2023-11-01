@@ -1,6 +1,6 @@
 import json
 
-import test_init
+# import test_init
 from django.contrib.auth.models import Group, User
 from django.core import mail
 from django.test import Client, TestCase
