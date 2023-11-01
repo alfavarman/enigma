@@ -1,7 +1,9 @@
 # Django #
+__pycache__/
+*.pyc
+*.pyo
 *.log
 *.pot
-*.pyc
 __pycache__
 db.sqlite3
 media
@@ -14,7 +16,8 @@ media
 
 # File-based project format
 *.iws
-
+*.sqlite3
+celerybeat-schedule*
 celerybeat-schedule
 
 # IntelliJ
@@ -80,6 +83,17 @@ venv.bak/
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+*.idea/
+*.vscode/
 
 # tmp/
 tmp/
+# System-specific ignores
+.DS_Store
+Thumbs.db
+
+# Pipenv
+Pipfile.lock
+
+# Requirements
+requirements.txt

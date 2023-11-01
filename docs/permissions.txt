@@ -1,0 +1,25 @@
+Seller
+     change_user - Can change user
+     delete_user - Can delete user
+     view_user - Can view user
+     view_order - Can view order
+     view_orderproduct - Can view order product
+     add_product - Can add product
+     can_view_product_statistics - Can view product statistics
+     change_product - Can change product
+     delete_product - Can delete product
+     view_product - Can view product
+     add_productcategory - Can add product category
+     change_productcategory - Can change product category
+     delete_productcategory - Can delete product category
+     view_productcategory - Can view product category
+Client
+     change_user - Can change user
+     delete_user - Can delete user
+     view_user - Can view user
+     add_order - Can add order
+     change_order - Can change order
+     delete_order - Can delete order
+     view_order - Can view order
+     view_product - Can view product
+     view_productcategory - Can view product category
