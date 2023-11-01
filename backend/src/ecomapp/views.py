@@ -1,14 +1,10 @@
-from datetime import datetime, timedelta
-
 from django.core.mail import send_mail
 from django.db.models import Sum
 from rest_framework import filters, generics, pagination, permissions
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .models import Order, OrderProduct, Product
-from .serializers import (OrderSerializer, ProductSerializer,
-                          ProductStatisticsInputSerializer)
+from .serializers import OrderSerializer, ProductSerializer, ProductStatisticsInputSerializer
 
 
 class IsSeller(permissions.BasePermission):
@@ -97,7 +93,6 @@ class PlaceOrderView(generics.CreateAPIView, generics.RetrieveUpdateDestroyAPIVi
 
 
 class ProductStatisticsView(generics.RetrieveAPIView):
-
     def get_permissions(self):
         return [permissions.IsAuthenticated(), IsSeller()]
 
@@ -119,6 +114,3 @@ class ProductStatisticsView(generics.RetrieveAPIView):
         )
 
         return Response(product_quantities)
-
-
-# TODO move permissions to separate file

@@ -1,8 +1,7 @@
-#import test_init
+# import test_init
 from django.contrib.auth.models import Group, User
 from django.test import Client, TestCase
 from django.urls import reverse
-
 from ecomapp.models import Product
 
 

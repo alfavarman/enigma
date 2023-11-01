@@ -98,10 +98,3 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
-
-
-# TODO models to separate modules (model folder + init + model_name.py)
-
-### TODO : COMMENT: 1) django inherit the id fields from the parent class,
-# however for some cases like products where ids will be generated, added, removed etc we would use UUID insted
-# of autoincrement primary key. As for simplicity of project SQL lite is used which stores UUID as TEXT todo is marked.

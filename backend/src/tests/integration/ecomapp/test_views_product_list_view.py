@@ -1,10 +1,9 @@
-#import test_init
+# import test_init
 from django.test import Client, TestCase
 from django.urls import reverse
-from rest_framework import status
-
 from ecomapp.models import Product, ProductCategory
 from ecomapp.serializers import ProductSerializer
+from rest_framework import status
 
 
 class ProductListViewTest(TestCase):

@@ -1,22 +1,23 @@
 import json
 import os
 
+from django.contrib.auth.models import Group, Permission
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import Group, Permission
 
 
 class Command(BaseCommand):
-    help = 'Set up predefined groups and permissions as in docs/permissions.json'
+    help = "Set up predefined groups and permissions as in docs/permissions.json"
 
     def handle(self, *args, **kwargs):
         # path to docks folder - to refactor from abspath
         base_dir = os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))))
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+        )
 
-        json_path = os.path.join(base_dir, 'docs', 'permissions.json')
+        json_path = os.path.join(base_dir, "docs", "permissions.json")
 
-        with open(json_path, 'r') as file:
+        with open(json_path, "r") as file:
             GROUPS_PERMISSIONS = json.load(file)
 
         for group_name, permissions in GROUPS_PERMISSIONS.items():
@@ -39,4 +40,3 @@ class Command(BaseCommand):
                 else:
                     group.permissions.add(perm)
                     self.stdout.write(self.style.SUCCESS(f'Permission "{codename}" added to group "{group_name}"'))
-

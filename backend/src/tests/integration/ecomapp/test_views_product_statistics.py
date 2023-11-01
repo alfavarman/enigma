@@ -1,17 +1,16 @@
 import datetime
-from django.utils import timezone
 
-#import test_init
-from django.contrib.auth.models import User, Group
+# import test_init
+from django.contrib.auth.models import Group, User
 from django.test import TestCase
 from django.urls import reverse
-from rest_framework.test import APIClient
+from django.utils import timezone
+from ecomapp.models import Order, OrderProduct, Product
 from rest_framework import status
-from ecomapp.models import Product, Order, OrderProduct
+from rest_framework.test import APIClient
 
 
 class ProductStatisticsViewTest(TestCase):
-
     def setUp(self):
         self.client = APIClient()
 
@@ -44,7 +43,7 @@ class ProductStatisticsViewTest(TestCase):
         params = {
             "date_from": self.test_date.strftime("%Y-%m-%d"),
             "date_to": (self.test_date + datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
-            "number_of_products": 2
+            "number_of_products": 2,
         }
 
         response = self.client.get(url, params)
@@ -52,18 +51,14 @@ class ProductStatisticsViewTest(TestCase):
 
         expected_data = [
             {"product__name": "Product2", "total_quantity": 10},
-            {"product__name": "Product1", "total_quantity": 5}
+            {"product__name": "Product1", "total_quantity": 5},
         ]
         self.assertEqual(list(response.data), expected_data)
 
     def test_get_product_statistics_missing_date(self):
         url = reverse("product-statistics")
 
-        params = {
-            "date_from": self.test_date.strftime("%Y-%m-%d"),
-            "number_of_products": 2
-        }
+        params = {"date_from": self.test_date.strftime("%Y-%m-%d"), "number_of_products": 2}
 
         response = self.client.get(url, params)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
